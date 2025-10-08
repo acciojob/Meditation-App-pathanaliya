@@ -1,129 +1,108 @@
-* {
+/*  your css code here. If applicable */
+body {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
-}
-
-html, body {
-  height: 100%;
-  width: 100%;
+  font-family: Arial, sans-serif;
   overflow: hidden;
-  font-family: 'Poppins', sans-serif;
+  background: black;
+  color: white;
 }
 
 #app {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
+  height: 100vh;
   position: relative;
 }
 
+/* Video Background */
 .vid-container video {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: -1;
-}
-
-.player-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 80%;
-  max-width: 900px;
-  color: white;
-}
-
-.time-select {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.time-select button {
-  background: transparent;
-  border: 2px solid white;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 1rem;
-}
-
-.time-select button:hover {
-  background: white;
-  color: black;
-}
-
-.play-container {
-  position: relative;
-  width: 200px;
-  height: 200px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.track-outline, .moving-outline {
   position: absolute;
   top: 0;
   left: 0;
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+}
+
+/* Time Select (Left side) */
+#time-select {
+  position: absolute;
+  top: 50%;
+  left: 20px;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+}
+
+#time-select button {
+  margin: 10px 0;
+  padding: 8px 15px;
+  font-size: 16px;
+  border: 1px solid white;
+  background: transparent;
+  color: white;
+  cursor: pointer;
+}
+
+/* Player Center */
+.player-container {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.player-container svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.track-outline circle {
+  stroke: rgba(255,255,255,0.3);
+}
+
+.moving-outline circle {
+  stroke-dasharray: 565.48; /* circumference of r=90 */
+  stroke-dashoffset: 565.48;
+  transition: stroke-dashoffset 0.2s linear;
 }
 
 .play {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 0;
-  height: 0;
-  border-left: 30px solid white;
-  border-top: 20px solid transparent;
-  border-bottom: 20px solid transparent;
-  cursor: pointer;
-}
-
-.play.pause {
-  width: 25px;
-  height: 40px;
+  top: 70px;
+  left: 70px;
+  font-size: 50px;
+  background: transparent;
   border: none;
-  background: white;
-  clip-path: polygon(0 0, 30% 0, 30% 100%, 0 100%, 70% 100%, 70% 0, 100% 0, 100% 100%, 70% 100%);
+  color: white;
+  cursor: pointer;
 }
 
 .time-display {
-  position: absolute;
-  bottom: -40px;
-  left: 50%;
-  transform: translateX(-50%);
-  color: white;
-  font-size: 1.5em;
+  margin-top: 220px;
+  font-size: 22px;
 }
 
+/* Sound Picker (Right side) */
 .sound-picker {
+  position: absolute;
+  top: 50%;
+  right: 30px;
+  transform: translateY(-50%);
   display: flex;
   flex-direction: column;
-  gap: 20px;
 }
 
 .sound-picker button {
+  background: #2c3e50;
   border: none;
   border-radius: 50%;
-  width: 70px;
-  height: 70px;
-  font-size: 2em;
+  width: 60px;
+  height: 60px;
+  margin: 10px 0;
+  font-size: 24px;
   cursor: pointer;
   color: white;
-}
-
-.sound-picker .rain {
-  background: #3b82f6;
-}
-
-.sound-picker .beach {
-  background: #ef4444;
 }

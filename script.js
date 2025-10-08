@@ -1,74 +1,93 @@
-const song = document.querySelector(".song");
-const play = document.querySelector(".play");
-const outline = document.querySelector(".moving-outline circle");
-const video = document.querySelector(".vid-container video");
-
+//your JS code here. If required.
+const playBtn = document.querySelector(".play");
 const timeDisplay = document.querySelector(".time-display");
-const timeSelect = document.querySelectorAll("#time-select button");
-const soundPicker = document.querySelectorAll(".sound-picker button");
+const video = document.querySelector(".vid-container video");
+const outline = document.querySelector(".moving-outline circle");
 
+// Audio setup
+let audio = new Audio("./Sounds/beach.mp3");
+
+// Circle setup
 const outlineLength = outline.getTotalLength();
 outline.style.strokeDasharray = outlineLength;
 outline.style.strokeDashoffset = outlineLength;
 
-let fakeDuration = 600; // Default 10 minutes
+// Default duration (10 mins)
+let fakeDuration = 600;
 
-// Play / Pause function
-play.addEventListener("click", () => {
-  if (song.paused) {
-    song.play();
+// Update display initially
+timeDisplay.textContent = formatTime(fakeDuration);
+
+// Format helper
+function formatTime(sec) {
+  const mins = Math.floor(sec / 60);
+  const secs = Math.floor(sec % 60);
+  return `${mins}:${secs < 10 ? "0" + secs : secs}`;
+}
+
+// Play / Pause toggle
+playBtn.addEventListener("click", () => {
+  if (audio.paused) {
+    audio.play();
     video.play();
-    play.classList.add("pause");
+    playBtn.textContent = "⏸";
   } else {
-    song.pause();
+    audio.pause();
     video.pause();
-    play.classList.remove("pause");
+    playBtn.textContent = "▶";
   }
 });
 
-// Change sound & video
-soundPicker.forEach(option => {
-  option.addEventListener("click", function () {
-    const soundSrc = this.getAttribute("data-sound");
-    const videoSrc = this.getAttribute("data-video");
-    song.src = soundSrc;
-    video.src = videoSrc;
-    checkPlaying(song);
+// Time Select
+document.getElementById("smaller-mins").addEventListener("click", () => {
+  fakeDuration = 120;
+  timeDisplay.textContent = formatTime(fakeDuration);
+});
+
+document.getElementById("medium-mins").addEventListener("click", () => {
+  fakeDuration = 300;
+  timeDisplay.textContent = formatTime(fakeDuration);
+});
+
+document.getElementById("long-mins").addEventListener("click", () => {
+  fakeDuration = 600;
+  timeDisplay.textContent = formatTime(fakeDuration);
+});
+
+// Switch sounds/videos
+document.querySelectorAll(".sound-picker button").forEach(btn => {
+  btn.addEventListener("click", function () {
+    const sound = this.getAttribute("data-sound");
+    const vid = this.getAttribute("data-video");
+
+    audio.pause();
+    video.pause();
+
+    audio = new Audio(sound);
+    video.src = vid;
+
+    if (playBtn.textContent === "⏸") {
+      audio.play();
+      video.play();
+    }
   });
 });
 
-// Time selection buttons
-timeSelect.forEach(option => {
-  option.addEventListener("click", function () {
-    if (this.id === "smaller-mins") fakeDuration = 120;
-    if (this.id === "medium-mins") fakeDuration = 300;
-    if (this.id === "long-mins") fakeDuration = 600;
-    timeDisplay.textContent = `${Math.floor(fakeDuration / 60)}:0`;
-  });
-});
-
-// Update circle + countdown
-song.ontimeupdate = () => {
-  let currentTime = song.currentTime;
+// Animate Circle & Timer
+audio.ontimeupdate = () => {
+  let currentTime = audio.currentTime;
   let elapsed = fakeDuration - currentTime;
-  let minutes = Math.floor(elapsed / 60);
-  let seconds = Math.floor(elapsed % 60);
-  timeDisplay.textContent = `${minutes}:${seconds < 10 ? "0" + seconds : seconds}`;
-
   let progress = outlineLength - (currentTime / fakeDuration) * outlineLength;
+
   outline.style.strokeDashoffset = progress;
+  timeDisplay.textContent = formatTime(elapsed);
 
   if (currentTime >= fakeDuration) {
-    song.pause();
-    song.currentTime = 0;
+    audio.pause();
     video.pause();
-    play.classList.remove("pause");
+    playBtn.textContent = "▶";
+    audio.currentTime = 0;
+    outline.style.strokeDashoffset = outlineLength;
+    timeDisplay.textContent = formatTime(fakeDuration);
   }
 };
-
-function checkPlaying(song) {
-  if (!song.paused) {
-    song.play();
-    video.play();
-  }
-}
