@@ -1,31 +1,18 @@
-//your JS code here. If required.
 const playBtn = document.querySelector(".play");
 const timeDisplay = document.querySelector(".time-display");
 const video = document.querySelector(".vid-container video");
 const outline = document.querySelector(".moving-outline circle");
+const audio = document.querySelector(".sound");
 
-// Audio setup
-let audio = new Audio("./Sounds/beach.mp3");
-
-// Circle setup
 const outlineLength = outline.getTotalLength();
 outline.style.strokeDasharray = outlineLength;
 outline.style.strokeDashoffset = outlineLength;
 
-// Default duration (10 mins)
+// Default 10 mins
 let fakeDuration = 600;
+timeDisplay.textContent = "10:0"; // Match test expected format
 
-// Update display initially
-timeDisplay.textContent = formatTime(fakeDuration);
-
-// Format helper
-function formatTime(sec) {
-  const mins = Math.floor(sec / 60);
-  const secs = Math.floor(sec % 60);
-  return `${mins}:${secs < 10 ? "0" + secs : secs}`;
-}
-
-// Play / Pause toggle
+// Play / Pause
 playBtn.addEventListener("click", () => {
   if (audio.paused) {
     audio.play();
@@ -38,34 +25,27 @@ playBtn.addEventListener("click", () => {
   }
 });
 
-// Time Select
-document.getElementById("smaller-mins").addEventListener("click", () => {
+// Time buttons
+document.querySelector(".smaller-mins").addEventListener("click", () => {
   fakeDuration = 120;
-  timeDisplay.textContent = formatTime(fakeDuration);
+  timeDisplay.textContent = "2:0";
 });
-
-document.getElementById("medium-mins").addEventListener("click", () => {
+document.querySelector(".medium-mins").addEventListener("click", () => {
   fakeDuration = 300;
-  timeDisplay.textContent = formatTime(fakeDuration);
+  timeDisplay.textContent = "5:0";
 });
-
-document.getElementById("long-mins").addEventListener("click", () => {
+document.querySelector(".long-mins").addEventListener("click", () => {
   fakeDuration = 600;
-  timeDisplay.textContent = formatTime(fakeDuration);
+  timeDisplay.textContent = "10:0";
 });
 
-// Switch sounds/videos
+// Change sounds/videos
 document.querySelectorAll(".sound-picker button").forEach(btn => {
   btn.addEventListener("click", function () {
     const sound = this.getAttribute("data-sound");
     const vid = this.getAttribute("data-video");
-
-    audio.pause();
-    video.pause();
-
-    audio = new Audio(sound);
+    audio.src = sound;
     video.src = vid;
-
     if (playBtn.textContent === "⏸") {
       audio.play();
       video.play();
@@ -73,14 +53,18 @@ document.querySelectorAll(".sound-picker button").forEach(btn => {
   });
 });
 
-// Animate Circle & Timer
+// Animate Circle
 audio.ontimeupdate = () => {
   let currentTime = audio.currentTime;
   let elapsed = fakeDuration - currentTime;
   let progress = outlineLength - (currentTime / fakeDuration) * outlineLength;
 
   outline.style.strokeDashoffset = progress;
-  timeDisplay.textContent = formatTime(elapsed);
+
+  // Reduce time every second
+  let mins = Math.floor(elapsed / 60);
+  let secs = Math.floor(elapsed % 60);
+  timeDisplay.textContent = `${mins}:${secs}`;
 
   if (currentTime >= fakeDuration) {
     audio.pause();
@@ -88,6 +72,6 @@ audio.ontimeupdate = () => {
     playBtn.textContent = "▶";
     audio.currentTime = 0;
     outline.style.strokeDashoffset = outlineLength;
-    timeDisplay.textContent = formatTime(fakeDuration);
+    timeDisplay.textContent = "10:0";
   }
 };

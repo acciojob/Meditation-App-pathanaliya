@@ -1,108 +1,130 @@
-/*  your css code here. If applicable */
+* {
+    box-sizing: border-box;
+}
+
 body {
-  margin: 0;
-  padding: 0;
-  font-family: Arial, sans-serif;
-  overflow: hidden;
-  background: black;
-  color: white;
+    margin: 0;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+    color: #fff;
 }
 
-#app {
-  height: 100vh;
-  position: relative;
+.app {
+    position: relative;
+    min-height: 100vh;
+    overflow: hidden;
 }
 
-/* Video Background */
-.vid-container video {
-  position: absolute;
-  top: 0;
-  left: 0;
-  object-fit: cover;
-  width: 100%;
-  height: 100%;
-  z-index: -2;
+/* --- Background Video --- */
+.vid-container {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
 }
 
-/* Time Select (Left side) */
-#time-select {
-  position: absolute;
-  top: 50%;
-  left: 20px;
-  transform: translateY(-50%);
-  display: flex;
-  flex-direction: column;
+.bg-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.8);
 }
 
-#time-select button {
-  margin: 10px 0;
-  padding: 8px 15px;
-  font-size: 16px;
-  border: 1px solid white;
-  background: transparent;
-  color: white;
-  cursor: pointer;
+/* --- Time Presets (left) --- */
+.time-select {
+    position: absolute;
+    left: 40px;
+    top: 80px;
+    z-index: 3;
+    /* raised so it stays clickable */
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
 }
 
-/* Player Center */
+.time-select button {
+    background: transparent;
+    color: #fff;
+    border: 2px solid #fff;
+    border-radius: 8px;
+    padding: 12px 20px;
+    font-size: 18px;
+    cursor: pointer;
+    opacity: .95;
+}
+
+.time-select button:hover {
+    opacity: 1;
+    transform: translateY(-1px);
+}
+
+/* --- Player (center) --- */
 .player-container {
-  position: absolute;
-  top: 45%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+
+    /* constrain hitbox so it doesn't cover left buttons */
+    width: 360px;
+    height: 360px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    /* allow clicks to pass through empty container area */
+    pointer-events: none;
 }
 
-.player-container svg {
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-
-.track-outline circle {
-  stroke: rgba(255,255,255,0.3);
-}
-
-.moving-outline circle {
-  stroke-dasharray: 565.48; /* circumference of r=90 */
-  stroke-dashoffset: 565.48;
-  transition: stroke-dashoffset 0.2s linear;
+/* re-enable pointer events for actual controls */
+.player-container .play,
+.player-container .time-display,
+.player-container audio,
+.player-container button {
+    pointer-events: auto;
 }
 
 .play {
-  position: absolute;
-  top: 70px;
-  left: 70px;
-  font-size: 50px;
-  background: transparent;
-  border: none;
-  color: white;
-  cursor: pointer;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, .12);
+    border: 4px solid #fff;
+    color: #fff;
+    font-size: 36px;
+    cursor: pointer;
 }
 
 .time-display {
-  margin-top: 220px;
-  font-size: 22px;
+    margin-top: 12px;
+    font-size: 48px;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, .4);
 }
 
-/* Sound Picker (Right side) */
+/* --- Sound Picker (right) --- */
 .sound-picker {
-  position: absolute;
-  top: 50%;
-  right: 30px;
-  transform: translateY(-50%);
-  display: flex;
-  flex-direction: column;
+    position: absolute;
+    right: 40px;
+    top: 120px;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 80px;
 }
 
-.sound-picker button {
-  background: #2c3e50;
-  border: none;
-  border-radius: 50%;
-  width: 60px;
-  height: 60px;
-  margin: 10px 0;
-  font-size: 24px;
-  cursor: pointer;
-  color: white;
+.sound {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    background: rgba(255, 255, 255, .25);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, .35);
+}
+
+.sound:focus-visible,
+.time-select button:focus-visible,
+.play:focus-visible {
+    outline: 3px solid #fff;
+    outline-offset: 2px;
 }
