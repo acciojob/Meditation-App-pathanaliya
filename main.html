@@ -1,16 +1,54 @@
 <!DOCTYPE html>
-
-<html>
-
+<html lang="en">
 <head>
-	<link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Meditation App</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
-
 <body>
-	<!-- the entire body must be written by student -->
-    <script type="text/javascript" src="./script.js">
-</script>
+  <div id="app">
+    <!-- Video background -->
+    <div class="vid-container">
+      <video src="./Sounds/rain.mp4" loop muted autoplay></video>
+    </div>
 
+    <div class="player-container">
+      <audio class="song" src="./Sounds/rain.mp3"></audio>
+
+      <!-- Time buttons -->
+      <div class="time-select" id="time-select">
+        <button id="smaller-mins">2 Minutes</button>
+        <button id="medium-mins">5 Minutes</button>
+        <button id="long-mins">10 Minutes</button>
+      </div>
+
+      <!-- Play area -->
+      <div class="play-container">
+        <svg class="track-outline" width="200" height="200">
+          <circle cx="100" cy="100" r="90" stroke="white" stroke-width="4" fill="none" />
+        </svg>
+
+        <svg class="moving-outline" width="200" height="200">
+          <circle cx="100" cy="100" r="90" stroke="#00bcd4" stroke-width="4" fill="none" />
+        </svg>
+
+        <div class="play"></div>
+        <div class="time-display">10:0</div>
+      </div>
+
+      <!-- Sound buttons -->
+      <div class="sound-picker">
+        <button class="rain" data-sound="./Sounds/rain.mp3" data-video="./Sounds/rain.mp4">
+          🌧️
+        </button>
+        <button class="beach" data-sound="./Sounds/beach.mp3" data-video="./Sounds/beach.mp4">
+          ☀️
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
 </body>
-
 </html>

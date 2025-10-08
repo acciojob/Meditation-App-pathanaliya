@@ -1,1 +1,129 @@
-/*  your css code here. If applicable */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  font-family: 'Poppins', sans-serif;
+}
+
+#app {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  position: relative;
+}
+
+.vid-container video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+}
+
+.player-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 80%;
+  max-width: 900px;
+  color: white;
+}
+
+.time-select {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.time-select button {
+  background: transparent;
+  border: 2px solid white;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.time-select button:hover {
+  background: white;
+  color: black;
+}
+
+.play-container {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.track-outline, .moving-outline {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 0;
+  height: 0;
+  border-left: 30px solid white;
+  border-top: 20px solid transparent;
+  border-bottom: 20px solid transparent;
+  cursor: pointer;
+}
+
+.play.pause {
+  width: 25px;
+  height: 40px;
+  border: none;
+  background: white;
+  clip-path: polygon(0 0, 30% 0, 30% 100%, 0 100%, 70% 100%, 70% 0, 100% 0, 100% 100%, 70% 100%);
+}
+
+.time-display {
+  position: absolute;
+  bottom: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+  font-size: 1.5em;
+}
+
+.sound-picker {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.sound-picker button {
+  border: none;
+  border-radius: 50%;
+  width: 70px;
+  height: 70px;
+  font-size: 2em;
+  cursor: pointer;
+  color: white;
+}
+
+.sound-picker .rain {
+  background: #3b82f6;
+}
+
+.sound-picker .beach {
+  background: #ef4444;
+}
